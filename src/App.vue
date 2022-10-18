@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink, RouterView } from 'vue-router';
 
-import PageLayout  from "./views/PageLayout.vue";
-
+import PageLayout from './views/PageLayout.vue';
 </script>
 
 <template>
