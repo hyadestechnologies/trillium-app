@@ -4,9 +4,12 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   data() {
     return {
-      asd: '',
+      
     };
   },
+  methods: {
+
+  }
 });
 </script>
 

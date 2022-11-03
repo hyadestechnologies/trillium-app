@@ -16,9 +16,13 @@ export default defineComponent({
 <template>
   <div class="container">
     <HeaderComponent />
-    <RouterView />
+    <RouterView class="body-content" />
     <FooterComponent />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .body-content {
+
+  }
+</style>
