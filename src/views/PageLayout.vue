@@ -5,20 +5,19 @@ import FooterComponent from '../components/FooterComponent.vue';
 
 export default defineComponent({
   data() {
-    return {
-    };
+    return {};
   },
   components: { HeaderComponent, FooterComponent },
 });
 </script>
-
 <template>
-  <div class="container">
-    <HeaderComponent />
-    <div class="routerContainer">
+  <div class="container flex flex-col flex-wrap content-center h-screen w-screen">
+    <HeaderComponent class="h-50 w-full order-1" />
+    <div class="routerContainer order-2 grow">
+
       <RouterView />
     </div>
-    <FooterComponent />
+    <FooterComponent class="h-50 w-full order-3 self-end" />
   </div>
 </template>
 
