@@ -6,7 +6,6 @@ import FooterComponent from '../components/FooterComponent.vue';
 export default defineComponent({
   data() {
     return {
-      asd: '',
     };
   },
   components: { HeaderComponent, FooterComponent },
@@ -16,7 +15,9 @@ export default defineComponent({
 <template>
   <div class="container">
     <HeaderComponent />
-    <RouterView />
+    <div class="routerContainer">
+      <RouterView />
+    </div>
     <FooterComponent />
   </div>
 </template>
