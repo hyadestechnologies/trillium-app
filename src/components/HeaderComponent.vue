@@ -14,7 +14,7 @@ export default defineComponent({
   <div class="container">
     <nav>
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/test">Test</RouterLink>
+      <RouterLink to="/Auth">Auth</RouterLink>
     </nav>
   </div>
 </template>
