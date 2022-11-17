@@ -5,10 +5,10 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/Auth'
+      redirect: '/auth'
     },
     {
-      path: '/Auth',
+      path: '/auth',
       name: 'AuthPage',
       component: () => import('../components/AuthPageComponent/AuthPageComponent.vue'), 
     }

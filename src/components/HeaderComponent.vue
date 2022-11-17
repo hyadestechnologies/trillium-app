@@ -11,10 +11,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container">
+  <div class="header-container">
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/Auth">Auth</RouterLink>
+      <div class="links ml-auto flex flex-wrap gap-x-2.5">
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/Auth">Auth</RouterLink>
+      </div>
     </nav>
   </div>
 </template>

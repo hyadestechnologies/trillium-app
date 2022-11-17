@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <div class="container flex h-full bg-white">
+  <div class="auth-page-container flex h-full bg-white">
     <div
       class="form-container flex flex-row w-[60vw] h-[60vh] bg-red-300 m-auto rounded-2xl border-black border-2 shadow-neo">
       <div class="oauth-container w-1/2 h-full m-auto">
