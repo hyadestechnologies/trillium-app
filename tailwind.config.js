@@ -7,13 +7,16 @@ module.exports = {
       md: '768px',
       lg: '976px',
       xl: '1440px',
-      xxl: '2560px'
+      xxl: '2560px',
+    },
+    themes: {
+      'main': '#1fb6ff',
     },
     extend: {
       boxShadow: {
-        'neo': '15px 15px 0px 0px rgb(0 0 0 / 1)'
-      }
+        'neo': '15px 15px 0px 0px rgb(0 0 0 / 1)',
+      },
     },
   },
   plugins: [],
-}
+};

@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities; 
+
+/* Insert custom classes here */
+
+:root {
+  --btn-default-bg-color: #fc9c4d;
+}
+
+
+
+.btn-default {
+  background-color: var(--btn-default-bg-color);
+  padding: 5px;
+  border-radius: 10px;
+}

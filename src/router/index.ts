@@ -5,13 +5,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/auth'
+      redirect: '/auth',
     },
     {
       path: '/auth',
       name: 'AuthPage',
-      component: () => import('../components/AuthPageComponent/AuthPageComponent.vue'), 
-    }
+      component: () => import('../components/AuthPageComponent/AuthPageComponent.vue'),
+    },
   ],
 });
 
