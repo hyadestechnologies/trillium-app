@@ -10,14 +10,22 @@ export default {
 </script>
 
 <template>
-  <div class="auth-page-container flex h-full bg-white">
-    <div
-      class="form-container flex flex-row w-[60vw] h-[60vh] bg-red-300 m-auto rounded-2xl border-black border-2 shadow-neo">
-      <div class="oauth-container w-1/2 h-full m-auto">
-        <h1>this is a container for oauth</h1>
+  <div class="auth-page-container flex h-full bg-red-300">
+    <div class="form-container flex flex-col md:flex-row w-[80vw] h-[70vh] m-auto rounded-2xl">
+      <div class="oauth-container w-full md:w-1/2 h-full m-auto md:m-0 flex flex-col">
+        <div class="info-container mt-5">
+          <h1>WELCOME!</h1>
+          <h3>Login or signup with an existing Google / Facebook account</h3>
+
+          <div class="logo-container">
+            <img alt="google logo" srcset="/src/assets/images/google.png" class="w-8 h-8" />
+          </div>
+        </div>
       </div>
-      <div class="email-auth-container w-1/2 h-full m-auto">
-        <h1>This is a container for email auth</h1>
+      <div class="email-auth-container w-full md:w-1/2 h-full m-auto flex flex-col">
+        <div class="info-container mt-5">
+          <h1>This is a container for email auth</h1>
+        </div>
       </div>
     </div>
   </div>

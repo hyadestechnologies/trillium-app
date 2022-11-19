@@ -11,7 +11,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="footer-container bg-slate-400">
+  <div class="footer-container bg-amber-300">
     <h2>This is the footer</h2>
   </div>
 </template>

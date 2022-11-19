@@ -11,7 +11,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="header-container">
+  <div class="header-container bg-amber-300">
     <nav>
       <div class="links ml-auto flex flex-wrap gap-x-2.5">
         <RouterLink to="/">Home</RouterLink>
