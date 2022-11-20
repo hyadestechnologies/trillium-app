@@ -14,6 +14,10 @@ export default defineComponent({
         username: false,
       },
       isFormInit: true,
+      errorClasses: {
+        'border-red-600': true,
+        'border-2': true,
+      },
     };
   },
   methods: {
@@ -28,11 +32,10 @@ export default defineComponent({
       }
 
       if (!this.user.username) {
-        this.formErrors.surname = true;
+        this.formErrors.username = true;
       }
 
       if (this.user.firstName && this.user.surname && this.user.username) {
-        console.log('form is valid');
         this.isFormInit = false;
       }
     },
@@ -47,6 +50,15 @@ export default defineComponent({
     formHeader() {
       return this.isFormInit ? 'Tell me who you are!' : 'Finalize creation';
     },
+    firstNameErrorClasses() {
+      return this.formErrors.firstName ? this.errorClasses : {};
+    },
+    surnameErrorClasses() {
+      return this.formErrors.surname ? this.errorClasses : {};
+    },
+    usernameErrorClasses() {
+      return this.formErrors.username ? this.errorClasses : {};
+    },
   },
 });
 </script>
@@ -57,16 +69,34 @@ export default defineComponent({
       <h1 class="text-center text-2xl">{{ formHeader }}</h1>
     </div>
     <form v-if="isFormInit" class="form-body-init flex flex-col gap-10" @submit.prevent="onFormSubmitInit">
-      <input type="text" v-model="user.firstName" placeholder="First name" class="rounded-lg indent-2" />
-      <input type="text" v-model="user.surname" placeholder="Last name" class="rounded-lg indent-2" />
-      <input type="text" v-model="user.username" placeholder="Username" class="rounded-lg indent-2" />
+      <input
+        type="text"
+        v-model="user.firstName"
+        placeholder="First name"
+        class="rounded-lg indent-2"
+        :class="firstNameErrorClasses"
+        @keyup="formErrors.firstName = false" />
+      <input
+        type="text"
+        v-model="user.surname"
+        placeholder="Last name"
+        class="rounded-lg indent-2"
+        :class="surnameErrorClasses"
+        @keyup="formErrors.surname = false" />
+      <input
+        type="text"
+        v-model="user.username"
+        placeholder="Username"
+        class="rounded-lg indent-2"
+        :class="usernameErrorClasses"
+        @keyup="formErrors.username = false" />
       <button class="btn-default">Continue</button>
     </form>
     <form v-else class="form-body-fin w-full flex flex-col gap-10" @submit.prevent="onFormFinalize">
       <input type="text" placeholder="Email" class="rounded-lg indent-2" />
       <input type="text" placeholder="Password" class="rounded-lg indent-2" />
       <input type="text" placeholder="Repeat password" class="rounded-lg indent-2" />
-      <div class="btn-container flex flex-row gap-5">
+      <div class="btn-container flex flex-row gap-5 justify-center items-center">
         <button type="button" @click="onFormBack" class="btn-default">Back</button>
         <button type="submit" class="btn-default">Register</button>
       </div>
