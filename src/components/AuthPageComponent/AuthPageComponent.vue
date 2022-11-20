@@ -72,7 +72,6 @@ export default defineComponent({
               <button @click="ToggleAuthMode('login')" class="btn-default">Login</button>
               <button @click="ToggleAuthMode('signup')" class="btn-default">Signup</button>
             </div>
-            <h1 class="text-center">This is a container for email auth</h1>
             <div v-if="getLogin">
               <h1>this is a placeholder for the login component</h1>
             </div>
