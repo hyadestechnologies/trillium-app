@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
+
 export default defineComponent({
   data() {
     return {
@@ -7,11 +8,17 @@ export default defineComponent({
         firstName: '',
         surname: '',
         username: '',
+        email: '',
+        password: '',
+        repeatedPassword: '',
       },
       formErrors: {
         firstName: false,
         surname: false,
         username: false,
+        email: false,
+        password: false,
+        repeatedPassword: false,
       },
       isFormInit: true,
       errorClasses: {
@@ -41,9 +48,36 @@ export default defineComponent({
     },
     onFormFinalize() {
       // do checks
+      const passwordRegex = new RegExp(
+        /^(?=.\S{7,24}$)(?=.*[a-z])(?=.*\d)(?=.*[ !"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_{|}~])/
+      );
+      console.log(passwordRegex.test(this.user.password));
+
+      if (!this.user.email || !this.emailValidation(this.user.email)) {
+        this.formErrors.email = true;
+      }
+
+      if (!this.user.password || !passwordRegex.test(this.user.password)) {
+        this.formErrors.password = true;
+      }
+
+      if (!this.user.repeatedPassword || this.user.password !== this.user.repeatedPassword) {
+        this.formErrors.repeatedPassword = true;
+      }
+
+      if (!this.formErrors.email && !this.formErrors.password && this.formErrors.repeatedPassword) {
+        // complete signup
+      }
     },
     onFormBack() {
       this.isFormInit = true;
+    },
+    emailValidation(email: String) {
+      return (
+        email.indexOf('@') !== -1 &&
+        email.trim().length >= 3 &&
+        email.substring(email.indexOf('@'), email.length).indexOf('.') != -1
+      );
     },
   },
   computed: {
@@ -58,6 +92,15 @@ export default defineComponent({
     },
     usernameErrorClasses() {
       return this.formErrors.username ? this.errorClasses : {};
+    },
+    emailErrorClasses() {
+      return this.formErrors.email ? this.errorClasses : {};
+    },
+    passwordErrorClasses() {
+      return this.formErrors.password ? this.errorClasses : {};
+    },
+    repeatedPasswordErrorClasses() {
+      return this.formErrors.repeatedPassword ? this.errorClasses : {};
     },
   },
 });
@@ -93,9 +136,27 @@ export default defineComponent({
       <button class="btn-default">Continue</button>
     </form>
     <form v-else class="form-body-fin w-full flex flex-col gap-10" @submit.prevent="onFormFinalize">
-      <input type="text" placeholder="Email" class="rounded-lg indent-2" />
-      <input type="text" placeholder="Password" class="rounded-lg indent-2" />
-      <input type="text" placeholder="Repeat password" class="rounded-lg indent-2" />
+      <input
+        type="text"
+        v-model="user.email"
+        placeholder="Email"
+        class="rounded-lg indent-2"
+        :class="emailErrorClasses"
+        @keyup="formErrors.email = false" />
+      <input
+        type="password"
+        v-model="user.password"
+        placeholder="Password"
+        class="rounded-lg indent-2"
+        :class="passwordErrorClasses"
+        @keyup="formErrors.password = false" />
+      <input
+        type="password"
+        v-model="user.repeatedPassword"
+        placeholder="Repeat password"
+        class="rounded-lg indent-2"
+        :class="repeatedPasswordErrorClasses"
+        @keyup="formErrors.repeatedPassword = false" />
       <div class="btn-container flex flex-row gap-5 justify-center items-center">
         <button type="button" @click="onFormBack" class="btn-default">Back</button>
         <button type="submit" class="btn-default">Register</button>
