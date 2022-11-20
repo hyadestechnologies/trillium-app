@@ -5,9 +5,7 @@ import PageLayout from './views/PageLayout.vue';
 </script>
 
 <template>
-  <header>
-    <PageLayout />
-  </header>
+  <PageLayout />
 </template>
 
 <style scoped>
