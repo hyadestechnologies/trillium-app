@@ -1,6 +1,5 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-
 export default defineComponent({
   data() {
     return {
@@ -79,7 +78,7 @@ export default defineComponent({
       );
     },
     signupUser() {
-      this.$axios
+      this.axios
         .post('/auth/signup/', {
           username: this.user.username,
           email: this.user.email,
