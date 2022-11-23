@@ -1,5 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { passwordRegex, emailValidation } from 'src/shared/functions/Validation';
+
 export default defineComponent({
   data() {
     return {
@@ -47,11 +49,8 @@ export default defineComponent({
     },
     onFormFinalize() {
       // do checks
-      const passwordRegex = new RegExp(
-        /^(?=.\S{7,24}$)(?=.*[a-z])(?=.*\d)(?=.*[ !"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_{|}~])/
-      );
 
-      if (!this.user.email || !this.emailValidation(this.user.email)) {
+      if (!this.user.email || !emailValidation(this.user.email)) {
         this.formErrors.email = true;
       }
 
@@ -69,13 +68,6 @@ export default defineComponent({
     },
     onFormBack() {
       this.isFormInit = true;
-    },
-    emailValidation(email: String) {
-      return (
-        email.indexOf('@') !== -1 &&
-        email.trim().length >= 3 &&
-        email.substring(email.indexOf('@'), email.length).indexOf('.') != -1
-      );
     },
     signupUser() {
       this.axios
