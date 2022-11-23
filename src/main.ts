@@ -17,5 +17,5 @@ app.use(createPinia());
 app.use(router);
 
 app.use(VueAxios, axiosInstance);
-
+app.provide('axios', app.config.globalProperties.axios);
 app.mount('#app');
