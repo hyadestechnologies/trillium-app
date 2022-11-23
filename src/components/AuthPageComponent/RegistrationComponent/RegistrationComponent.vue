@@ -51,7 +51,6 @@ export default defineComponent({
       const passwordRegex = new RegExp(
         /^(?=.\S{7,24}$)(?=.*[a-z])(?=.*\d)(?=.*[ !"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_{|}~])/
       );
-      console.log(passwordRegex.test(this.user.password));
 
       if (!this.user.email || !this.emailValidation(this.user.email)) {
         this.formErrors.email = true;
@@ -65,8 +64,8 @@ export default defineComponent({
         this.formErrors.repeatedPassword = true;
       }
 
-      if (!this.formErrors.email && !this.formErrors.password && this.formErrors.repeatedPassword) {
-        // complete signup
+      if (!this.formErrors.email && !this.formErrors.password && !this.formErrors.repeatedPassword) {
+        this.signupUser();
       }
     },
     onFormBack() {
@@ -78,6 +77,20 @@ export default defineComponent({
         email.trim().length >= 3 &&
         email.substring(email.indexOf('@'), email.length).indexOf('.') != -1
       );
+    },
+    signupUser() {
+      this.$axios
+        .post('/auth/signup/', {
+          username: this.user.username,
+          email: this.user.email,
+          password: this.user.password,
+        })
+        .then((response: any) => {
+          console.log(response);
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
     },
   },
   computed: {
