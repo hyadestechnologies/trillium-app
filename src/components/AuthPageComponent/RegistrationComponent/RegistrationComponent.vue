@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { passwordRegex, emailValidation } from 'src/shared/functions/Validation';
+import { passwordRegex, emailValidation } from '@/shared/functions/Validation';
 
 export default defineComponent({
   data() {
