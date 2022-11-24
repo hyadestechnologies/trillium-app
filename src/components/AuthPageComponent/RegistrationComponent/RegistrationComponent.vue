@@ -1,28 +1,14 @@
 <script lang="ts" setup>
 import { reactive, inject, computed } from 'vue';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { passwordRegex, emailValidation } from '@/shared/functions/Validation';
 
+import type { FormUser, FormErrors } from './RegistrationComponentTypes';
+
 const axios: any = inject('axios');
+const queryClient = useQueryClient();
 
-interface User {
-  firstName: string;
-  surname: string;
-  username: string;
-  email: string;
-  password: string;
-  repeatedPassword: string;
-}
-
-interface FormErrors {
-  firstName: boolean;
-  surname: boolean;
-  username: boolean;
-  email: boolean;
-  password: boolean;
-  repeatedPassword: boolean;
-}
-
-const user: User = reactive({
+const user: FormUser = reactive({
   firstName: '',
   surname: '',
   username: '',
@@ -47,6 +33,25 @@ const errorClasses = {
 
 const state = reactive({
   isFormInit: true,
+});
+
+const userMutation = useMutation({
+  mutationFn: (newUser: FormUser) => {
+    return axios
+      .post('/auth/signup', {
+        username: newUser.username,
+        email: newUser.email,
+        password: newUser.password,
+        name: newUser.firstName,
+        surname: newUser.surname,
+      })
+      .then((response: any) => {
+        console.log(response);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  },
 });
 
 function onFormSubmitInit() {
@@ -84,27 +89,12 @@ function onFormFinalize() {
   }
 
   if (!formErrors.email && !formErrors.password && !formErrors.repeatedPassword) {
-    signupUser();
+    userMutation.mutate(user);
   }
 }
 
 function onFormBack() {
   state.isFormInit = true;
-}
-
-function signupUser() {
-  axios
-    .post('/auth/signup/', {
-      username: user.username,
-      email: user.email,
-      password: user.password,
-    })
-    .then((response: any) => {
-      console.log(response);
-    })
-    .catch((error: any) => {
-      console.log(error);
-    });
 }
 
 const formHeader = computed(() => {
