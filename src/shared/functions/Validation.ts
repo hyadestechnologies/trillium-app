@@ -1,5 +1,5 @@
 export function usernameValidation(username: String): boolean {
-  const usernameRegex = new RegExp(/^[a-zA-Z_]+$/);
+  const usernameRegex = new RegExp(/^[a-zA-Z0-9_]+$/);
   return usernameRegex.test(username.toString());
 }
 export function emailValidation(email: String): boolean {

@@ -63,10 +63,10 @@ function authenticate() {
       password: user.password,
     })
     .then((response: any) => {
-      console.log('[data] ' + JSON.stringify(response.data));
+      console.log(response);
     })
     .catch((error: any) => {
-      console.log('[error] ' + error);
+      console.log(error);
     });
 }
 
