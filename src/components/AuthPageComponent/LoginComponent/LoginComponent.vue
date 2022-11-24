@@ -1,81 +1,77 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { reactive, inject, computed } from 'vue';
+import { usernameValidation, passwordValidation } from '@/shared/functions/Validation';
 
-export default defineComponent({
-  data() {
-    return {
-      user: {
-        username: '',
-        password: '',
-      },
-      formErrors: {
-        username: false,
-        password: false,
-      },
-      errorClasses: {
-        'border-red-600': true,
-        'border-2': true,
-      },
-      timer: 0,
-    };
-  },
+const axios: any = inject('axios');
 
-  methods: {
-    onFormSubmit() {
-      if (!this.user.username) {
-        this.formErrors.username = true;
-      }
-      if (!this.user.password) {
-        this.formErrors.password = true;
-      }
+interface LoginUser {
+  username: string;
+  password: string;
+}
+interface LoginFormErrors {
+  username: boolean;
+  password: boolean;
+}
 
-      if (this.user.username && this.user.password) {
-        // TODO: Send credentials to backend
-        console.log('[login] Form has been submitted');
-      }
-    },
-    usernameValidation(username: string): boolean {
-      // TODO: Username regex
-      const usernameRegex = new RegExp(/^[a-zA-Z_]+$/);
-      return usernameRegex.test(username);
-    },
-    passwordValidation(password: string): boolean {
-      // TODO: Regex password
-      const passwordRegex = new RegExp(
-        /^(?=.\S{7,24}$)(?=.*[a-z])(?=.*\d)(?=.*[ !"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_{|}~])/
-      );
-      return passwordRegex.test(password);
-    },
-    startValidation(validator: (arg: string) => boolean, arg: string) {
-      return new Promise(resolve => {
-        if (this.timer) {
-          clearTimeout(this.timer);
-          this.timer = 0;
-        }
-        this.timer = setTimeout(() => {
-          resolve(validator(arg));
-        }, 200);
-      });
-    },
-    // Show errors based on username validation
-    async checkUsername() {
-      this.formErrors.username = !(await this.startValidation(this.usernameValidation, this.user.username));
-    },
-    // Show errors based on password validation
-    async checkPassword() {
-      this.formErrors.password = !(await this.startValidation(this.passwordValidation, this.user.password));
-    },
-  },
-
-  computed: {
-    usernameErrorClasses() {
-      return this.formErrors.username ? this.errorClasses : {};
-    },
-    passwordErrorClasses() {
-      return this.formErrors.password ? this.errorClasses : {};
-    },
-  },
+const user: LoginUser = reactive({
+  username: '',
+  password: '',
 });
+let formErrors: LoginFormErrors = reactive({
+  username: false,
+  password: false,
+});
+const errorClasses = {
+  'border-red-600': true,
+  'border-2': true,
+};
+let timer: number | undefined = undefined;
+
+function onFormSubmit() {
+  // Set error if fields are empty
+  if (!user.username) formErrors.username = true;
+  if (!user.password) formErrors.password = true;
+
+  if (!formErrors.username && !formErrors.password) {
+    authenticate();
+  }
+}
+
+function startValidation(validator: (arg: string) => boolean, arg: string) {
+  return new Promise(resolve => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = undefined;
+    }
+    timer = setTimeout(() => {
+      resolve(validator(arg));
+    }, 200);
+  });
+}
+// Show errors based on username validation
+async function checkUsername() {
+  formErrors.username = !(await startValidation(usernameValidation, user.username));
+}
+// Show errors based on password validation
+async function checkPassword() {
+  formErrors.password = !(await startValidation(passwordValidation, user.password));
+}
+function authenticate() {
+  axios
+    .post('/auth/login/', {
+      username: user.username,
+      password: user.password,
+    })
+    .then((response: any) => {
+      console.log('[data] ' + JSON.stringify(response.data));
+    })
+    .catch((error: any) => {
+      console.log('[error] ' + error);
+    });
+}
+
+const usernameErrorClasses = computed(() => (formErrors.username ? errorClasses : {}));
+const passwordErrorClasses = computed(() => (formErrors.password ? errorClasses : {}));
 </script>
 
 <template>

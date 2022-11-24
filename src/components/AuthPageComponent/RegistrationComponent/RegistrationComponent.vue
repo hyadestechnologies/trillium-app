@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { reactive, inject, computed } from 'vue';
-import { passwordRegex, emailValidation } from '@/shared/functions/Validation';
+import { passwordValidation, emailValidation } from '@/shared/functions/Validation';
 
 const axios: any = inject('axios');
 
@@ -75,7 +75,7 @@ function onFormFinalize() {
     formErrors.email = true;
   }
 
-  if (!user.password || !passwordRegex.test(user.password)) {
+  if (!user.password || !passwordValidation(user.password)) {
     formErrors.password = true;
   }
 
