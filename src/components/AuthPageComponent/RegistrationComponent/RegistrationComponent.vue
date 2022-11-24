@@ -1,108 +1,128 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import { reactive, inject, computed } from 'vue';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { passwordRegex, emailValidation } from '@/shared/functions/Validation';
 
-export default defineComponent({
-  data() {
-    return {
-      user: {
-        firstName: '',
-        surname: '',
-        username: '',
-        email: '',
-        password: '',
-        repeatedPassword: '',
-      },
-      formErrors: {
-        firstName: false,
-        surname: false,
-        username: false,
-        email: false,
-        password: false,
-        repeatedPassword: false,
-      },
-      isFormInit: true,
-      errorClasses: {
-        'border-red-600': true,
-        'border-2': true,
-      },
-    };
+import type { FormUser, FormErrors } from './RegistrationComponentTypes';
+
+const axios: any = inject('axios');
+const queryClient = useQueryClient();
+
+const user: FormUser = reactive({
+  firstName: '',
+  surname: '',
+  username: '',
+  email: '',
+  password: '',
+  repeatedPassword: '',
+});
+
+const formErrors: FormErrors = reactive({
+  firstName: false,
+  surname: false,
+  username: false,
+  email: false,
+  password: false,
+  repeatedPassword: false,
+});
+
+const errorClasses = {
+  'border-red-600': true,
+  'border-2': true,
+};
+
+const state = reactive({
+  isFormInit: true,
+});
+
+const userMutation = useMutation({
+  mutationFn: (newUser: FormUser) => {
+    return axios
+      .post('/auth/signup', {
+        username: newUser.username,
+        email: newUser.email,
+        password: newUser.password,
+        name: newUser.firstName,
+        surname: newUser.surname,
+      })
+      .then((response: any) => {
+        console.log(response);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
   },
-  methods: {
-    onFormSubmitInit() {
-      // do checks
-      if (!this.user.firstName) {
-        this.formErrors.firstName = true;
-      }
+});
 
-      if (!this.user.surname) {
-        this.formErrors.surname = true;
-      }
+function onFormSubmitInit() {
+  // do checks
+  if (!user.firstName) {
+    formErrors.firstName = true;
+  }
 
-      if (!this.user.username) {
-        this.formErrors.username = true;
-      }
+  if (!user.surname) {
+    formErrors.surname = true;
+  }
 
-      if (this.user.firstName && this.user.surname && this.user.username) {
-        this.isFormInit = false;
-      }
-    },
-    onFormFinalize() {
-      // do checks
-      const passwordRegex = new RegExp(
-        /^(?=.\S{7,24}$)(?=.*[a-z])(?=.*\d)(?=.*[ !"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_{|}~])/
-      );
-      console.log(passwordRegex.test(this.user.password));
+  if (!user.username) {
+    formErrors.username = true;
+  }
 
-      if (!this.user.email || !this.emailValidation(this.user.email)) {
-        this.formErrors.email = true;
-      }
+  if (user.firstName && user.surname && user.username) {
+    state.isFormInit = false;
+  }
+}
 
-      if (!this.user.password || !passwordRegex.test(this.user.password)) {
-        this.formErrors.password = true;
-      }
+function onFormFinalize() {
+  // do checks
 
-      if (!this.user.repeatedPassword || this.user.password !== this.user.repeatedPassword) {
-        this.formErrors.repeatedPassword = true;
-      }
+  if (!user.email || !emailValidation(user.email)) {
+    formErrors.email = true;
+  }
 
-      if (!this.formErrors.email && !this.formErrors.password && this.formErrors.repeatedPassword) {
-        // complete signup
-      }
-    },
-    onFormBack() {
-      this.isFormInit = true;
-    },
-    emailValidation(email: String) {
-      return (
-        email.indexOf('@') !== -1 &&
-        email.trim().length >= 3 &&
-        email.substring(email.indexOf('@'), email.length).indexOf('.') != -1
-      );
-    },
-  },
-  computed: {
-    formHeader() {
-      return this.isFormInit ? 'Tell me who you are!' : 'Finalize creation';
-    },
-    firstNameErrorClasses() {
-      return this.formErrors.firstName ? this.errorClasses : {};
-    },
-    surnameErrorClasses() {
-      return this.formErrors.surname ? this.errorClasses : {};
-    },
-    usernameErrorClasses() {
-      return this.formErrors.username ? this.errorClasses : {};
-    },
-    emailErrorClasses() {
-      return this.formErrors.email ? this.errorClasses : {};
-    },
-    passwordErrorClasses() {
-      return this.formErrors.password ? this.errorClasses : {};
-    },
-    repeatedPasswordErrorClasses() {
-      return this.formErrors.repeatedPassword ? this.errorClasses : {};
-    },
-  },
+  if (!user.password || !passwordRegex.test(user.password)) {
+    formErrors.password = true;
+  }
+
+  if (!user.repeatedPassword || user.password !== user.repeatedPassword) {
+    formErrors.repeatedPassword = true;
+  }
+
+  if (!formErrors.email && !formErrors.password && !formErrors.repeatedPassword) {
+    userMutation.mutate(user);
+  }
+}
+
+function onFormBack() {
+  state.isFormInit = true;
+}
+
+const formHeader = computed(() => {
+  return state.isFormInit ? 'Tell me who you are!' : 'Finalize creation';
+});
+
+const firstNameErrorClasses = computed(() => {
+  return formErrors.firstName ? errorClasses : {};
+});
+
+const surnameErrorClasses = computed(() => {
+  return formErrors.surname ? errorClasses : {};
+});
+
+const usernameErrorClasses = computed(() => {
+  return formErrors.username ? errorClasses : {};
+});
+
+const emailErrorClasses = computed(() => {
+  return formErrors.email ? errorClasses : {};
+});
+
+const passwordErrorClasses = computed(() => {
+  return formErrors.password ? errorClasses : {};
+});
+
+const repeatedPasswordErrorClasses = computed(() => {
+  return formErrors.repeatedPassword ? errorClasses : {};
 });
 </script>
 
@@ -111,7 +131,7 @@ export default defineComponent({
     <div class="form-header mb-5">
       <h1 class="text-center text-2xl">{{ formHeader }}</h1>
     </div>
-    <form v-if="isFormInit" class="form-body-init flex flex-col gap-10" @submit.prevent="onFormSubmitInit">
+    <form v-if="state.isFormInit" class="form-body-init flex flex-col gap-10" @submit.prevent="onFormSubmitInit">
       <input
         type="text"
         v-model="user.firstName"
