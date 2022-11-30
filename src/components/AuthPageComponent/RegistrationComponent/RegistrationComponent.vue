@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, inject, computed } from 'vue';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import { passwordRegex, emailValidation } from '@/shared/functions/Validation';
+import { passwordValidation, emailValidation } from '@/shared/functions/Validation';
 
 import type { FormUser, FormErrors } from './RegistrationComponentTypes';
 
@@ -80,7 +80,7 @@ function onFormFinalize() {
     formErrors.email = true;
   }
 
-  if (!user.password || !passwordRegex.test(user.password)) {
+  if (!user.password || !passwordValidation(user.password)) {
     formErrors.password = true;
   }
 

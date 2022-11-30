@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
+import LoginComponent from './LoginComponent/LoginComponent.vue';
 import RegistrationComponent from './RegistrationComponent/RegistrationComponent.vue';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   },
   components: {
     RegistrationComponent,
+    LoginComponent,
   },
   methods: {
     onCustomAuthClicked(authType: string) {
@@ -73,7 +75,7 @@ export default defineComponent({
               <button @click="ToggleAuthMode('signup')" class="btn-default">Signup</button>
             </div>
             <div v-if="getLogin">
-              <h1>this is a placeholder for the login component</h1>
+              <LoginComponent />
             </div>
             <div v-else>
               <RegistrationComponent />
