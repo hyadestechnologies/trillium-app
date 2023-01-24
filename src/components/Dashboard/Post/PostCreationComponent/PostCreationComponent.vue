@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { useMutation } from '@tanstack/vue-query';
 import { inject, reactive } from 'vue';
 import type { Post } from './PostCreationComponentTypes';
 
 const axios: any = inject('axios');
-const queryClient = useQueryClient();
 
 const post: Post = reactive({
   title: '',
