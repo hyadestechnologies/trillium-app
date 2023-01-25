@@ -57,6 +57,10 @@ async function checkPassword() {
   formErrors.password = !(await startValidation(passwordValidation, user.password));
 }
 function authenticate() {
+  let Response: {
+    authToken: String;
+  };
+
   axios
     .post('/auth/login/', {
       username: user.username,
@@ -64,6 +68,12 @@ function authenticate() {
     })
     .then((response: any) => {
       console.log(response);
+      Response = JSON.parse(response);
+
+      // Save token to local storage
+      if (typeof Storage !== 'undefined') {
+        localStorage.setItem('authToken', Response.authToken.toString());
+      }
     })
     .catch((error: any) => {
       console.log(error);
