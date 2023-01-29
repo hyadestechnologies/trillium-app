@@ -21,8 +21,14 @@ const router = createRouter({
           path: 'createpost',
           name: 'CreatePostpage',
           component: () => import('../components/Dashboard/Post/PostCreationComponent/PostCreationComponent.vue'),
-        }
-      ]
+        },
+        {
+          path: 'visualizepost',
+          name: 'VisualizePostpage',
+          component: () =>
+            import('../components/Dashboard/Post/PostVisualizationComponent/PostVisualizationComponent.vue'),
+        },
+      ],
     },
   ],
 });

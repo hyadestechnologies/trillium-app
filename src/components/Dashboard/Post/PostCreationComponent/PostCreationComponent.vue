@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMutation } from '@tanstack/vue-query';
 import { inject, reactive } from 'vue';
-import type { Post } from './PostCreationComponentTypes';
+import type { Post } from '../PostComponentTypes';
 
 const axios: any = inject('axios');
 
@@ -16,7 +16,7 @@ const createPostMutation = useMutation({
       .post('/post/create', {
         title: newPost.title,
         description: newPost.description,
-        file: newPost.file,
+        file: newPost.media,
       })
       .then((response: any) => {
         console.log(response);
@@ -28,7 +28,7 @@ const createPostMutation = useMutation({
 });
 
 function uploadFile(event: any) {
-  post.file = event.target.files[0];
+  post.media = event.target.files[0];
 }
 
 function createPost() {
