@@ -4,13 +4,13 @@ import { inject, ref } from 'vue';
 
 const axios: any = inject('axios');
 
-const numPosts = 5;
-let page = ref(0);
+const numPosts = 2;
+let page = 0;
 
 // Get posts based on the page
 const { isLoading, isError, data, error } = useQuery({
   queryKey: ['getPosts'],
-  queryFn: () => axios.get('/posts/getAll/${page}/${numPosts}'),
+  queryFn: () => axios.get('/posts/getAll/' + page + '/' + numPosts),
   select: response => response.data,
 });
 </script>
