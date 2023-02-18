@@ -1,36 +1,39 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
-import { inject, ref } from 'vue';
+import { inject } from 'vue';
+import PostListComponent from '../PostListComponent.vue';
 
 const axios: any = inject('axios');
 
-const numPosts = 2;
+const numPosts = 20;
 let page = 0;
 
 // Get posts based on the page
-const { isLoading, isError, data, error } = useQuery({
+const postGetQuery = useQuery({
   queryKey: ['getPosts'],
   queryFn: () => axios.get('/posts/getAll/' + page + '/' + numPosts),
   select: response => response.data,
 });
+const { isLoading, isError, data, error } = postGetQuery;
+
+//TODO: Load on scroll
+function loadPage(event: any) {
+  const target = event.currentTarget;
+  let bottom = target.scrollTop + target.innerHeight === target.offsetHeight;
+
+  if (bottom) {
+    page++;
+    postGetQuery.refetch();
+  }
+}
 </script>
 <template>
   <div class="h-100 flex flex-col p-5">
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1 scroll-auto" @scroll="loadPage">
       <span class="error" v-if="isError">{{ error }}</span>
       <span class="" v-else-if="isLoading">Loading...</span>
       <div v-else-if="data">
-        <ul>
-          <li class="list-none" v-for="post in data" :key="post.id">
-            <h3 class="mt-5 font-bold">{{ post.title }}</h3>
-            <p>{{ post.description }}</p>
-          </li>
-        </ul>
-
-        <div class="">
-          <button class="btn-default">&lt prev</button>
-          <button class="btn-default">next &gt</button>
-        </div>
+        <PostListComponent :posts="data" />
       </div>
     </div>
   </div>
