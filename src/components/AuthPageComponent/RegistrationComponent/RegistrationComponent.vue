@@ -1,24 +1,25 @@
 <script lang="ts" setup>
-import { reactive, inject, computed } from 'vue';
+import { ref, reactive, inject, computed } from 'vue';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { passwordValidation, emailValidation } from '@/shared/functions/Validation';
 
-import type { FormUser, FormErrors } from './RegistrationComponentTypes';
+import type { User } from '@/shared/types/user';
+import type { FormErrors } from './RegistrationComponentTypes';
 
 const axios: any = inject('axios');
 const queryClient = useQueryClient();
 
-const user: FormUser = reactive({
-  firstName: '',
+const user: User = reactive({
+  name: '',
   surname: '',
   username: '',
   email: '',
   password: '',
-  repeatedPassword: '',
 });
+const repeatedPassword = ref('');
 
 const formErrors: FormErrors = reactive({
-  firstName: false,
+  name: false,
   surname: false,
   username: false,
   email: false,
@@ -36,59 +37,36 @@ const state = reactive({
 });
 
 const userMutation = useMutation({
-  mutationFn: (newUser: FormUser) => {
+  mutationFn: (newUser: User) => {
     return axios
       .post('/auth/signup', {
         username: newUser.username,
         email: newUser.email,
         password: newUser.password,
-        name: newUser.firstName,
+        name: newUser.name,
         surname: newUser.surname,
       })
-      .then((response: any) => {
-        console.log(response);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
+      .then((response: any) => response.data)
+      .catch((error: any) => Promise.reject(error));
   },
 });
 
 function onFormSubmitInit() {
   // do checks
-  if (!user.firstName) {
-    formErrors.firstName = true;
-  }
-
-  if (!user.surname) {
-    formErrors.surname = true;
-  }
-
-  if (!user.username) {
-    formErrors.username = true;
-  }
-
-  if (user.firstName && user.surname && user.username) {
-    state.isFormInit = false;
-  }
+  if (!user.name) formErrors.name = true;
+  if (!user.surname) formErrors.surname = true;
+  if (!user.username) formErrors.username = true;
+  if (user.name && user.surname && user.username) state.isFormInit = false;
 }
 
 function onFormFinalize() {
-  // do checks
-
-  if (!user.email || !emailValidation(user.email)) {
-    formErrors.email = true;
-  }
-
-  if (!user.password || !passwordValidation(user.password)) {
-    formErrors.password = true;
-  }
-
-  if (!user.repeatedPassword || user.password !== user.repeatedPassword) {
-    formErrors.repeatedPassword = true;
-  }
+  // Check if fields are empty
+  if (!user.email || !emailValidation(user.email)) formErrors.email = true;
+  if (!user.password || !passwordValidation(user.password)) formErrors.password = true;
+  if (!repeatedPassword.value || user.password !== repeatedPassword.value) formErrors.repeatedPassword = true;
 
   if (!formErrors.email && !formErrors.password && !formErrors.repeatedPassword) {
+    // Register
     userMutation.mutate(user);
   }
 }
@@ -101,8 +79,8 @@ const formHeader = computed(() => {
   return state.isFormInit ? 'Tell me who you are!' : 'Finalize creation';
 });
 
-const firstNameErrorClasses = computed(() => {
-  return formErrors.firstName ? errorClasses : {};
+const nameErrorClasses = computed(() => {
+  return formErrors.name ? errorClasses : {};
 });
 
 const surnameErrorClasses = computed(() => {
@@ -134,11 +112,11 @@ const repeatedPasswordErrorClasses = computed(() => {
     <form v-if="state.isFormInit" class="form-body-init flex flex-col gap-10" @submit.prevent="onFormSubmitInit">
       <input
         type="text"
-        v-model="user.firstName"
+        v-model="user.name"
         placeholder="First name"
         class="rounded-lg indent-2"
-        :class="firstNameErrorClasses"
-        @keyup="formErrors.firstName = false" />
+        :class="nameErrorClasses"
+        @keyup="formErrors.name = false" />
       <input
         type="text"
         v-model="user.surname"
@@ -172,7 +150,7 @@ const repeatedPasswordErrorClasses = computed(() => {
         @keyup="formErrors.password = false" />
       <input
         type="password"
-        v-model="user.repeatedPassword"
+        v-model="repeatedPassword"
         placeholder="Repeat password"
         class="rounded-lg indent-2"
         :class="repeatedPasswordErrorClasses"

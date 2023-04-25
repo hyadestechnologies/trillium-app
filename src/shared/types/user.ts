@@ -1,8 +1,15 @@
+// User type as for D3 class diagram
 export interface User {
-  firstName?: string;
+  id?: string;
+  name?: string;
   surname?: string;
-  description?: string;
-  email: string;
   username: string;
+  email?: string;
   password: string;
+  creationDate?: Date;
+  lastUpdate?: Date;
+  deletedOn?: Date;
+  description?: string;
+  sex?: string;
+  age?: number;
 }

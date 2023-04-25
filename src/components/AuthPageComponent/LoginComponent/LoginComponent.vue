@@ -1,31 +1,41 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { reactive, inject, computed } from 'vue';
 import { usernameValidation, passwordValidation } from '@/shared/functions/Validation';
 
+import type { User } from '@/shared/types/user';
+import type { FormErrors, Response } from './LoginComponentType';
+
 const axios: any = inject('axios');
+const queryClient = useQueryClient();
 
-interface LoginUser {
-  username: string;
-  password: string;
-}
-interface LoginFormErrors {
-  username: boolean;
-  password: boolean;
-}
-
-const user: LoginUser = reactive({
+const user: User = reactive({
   username: '',
   password: '',
 });
-let formErrors: LoginFormErrors = reactive({
+const formErrors: FormErrors = reactive({
   username: false,
   password: false,
 });
+
 const errorClasses = {
   'border-red-600': true,
   'border-2': true,
 };
 let timer: number | undefined = undefined;
+
+const loginQuery = useQuery({
+  queryKey: ['login', user],
+  queryFn: (): Promise<Response> =>
+    axios
+      .post('/auth/login/', {
+        username: user.username,
+        password: user.password,
+      })
+      .then((response: any) => response.data)
+      .catch((error: any) => Promise.reject(error)),
+  enabled: false,
+});
 
 function onFormSubmit() {
   // Set error if fields are empty
@@ -33,7 +43,21 @@ function onFormSubmit() {
   if (!user.password) formErrors.password = true;
 
   if (!formErrors.username && !formErrors.password) {
-    authenticate();
+    // Refetch login query
+    loginQuery
+      .refetch()
+      .then(() => {
+        const response = loginQuery.data.value;
+        if (response === undefined) throw new Error('Undefined login response');
+
+        // Save token to local storage
+        if (typeof Storage !== 'undefined') {
+          localStorage.setItem('access_token', response.access_token);
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
   }
 }
 
@@ -55,29 +79,6 @@ async function checkUsername() {
 // Show errors based on password validation
 async function checkPassword() {
   formErrors.password = !(await startValidation(passwordValidation, user.password));
-}
-function authenticate() {
-  let Response: {
-    authToken: String;
-  };
-
-  axios
-    .post('/auth/login/', {
-      username: user.username,
-      password: user.password,
-    })
-    .then((response: any) => {
-      console.log(response);
-      Response = JSON.parse(response);
-
-      // Save token to local storage
-      if (typeof Storage !== 'undefined') {
-        localStorage.setItem('authToken', Response.authToken.toString());
-      }
-    })
-    .catch((error: any) => {
-      console.log(error);
-    });
 }
 
 const usernameErrorClasses = computed(() => (formErrors.username ? errorClasses : {}));
