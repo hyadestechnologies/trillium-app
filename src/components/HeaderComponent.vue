@@ -15,7 +15,6 @@ export default defineComponent({
     <nav>
       <div class="links ml-auto flex flex-wrap gap-x-2.5">
         <RouterLink to="/dashboard/visualizepost">Home</RouterLink>
-        <RouterLink to="/dashboard/createpost">Create post</RouterLink>
         <RouterLink to="/Auth">Auth</RouterLink>
       </div>
     </nav>
