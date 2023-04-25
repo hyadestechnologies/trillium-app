@@ -14,7 +14,8 @@ export default defineComponent({
   <div class="header-container bg-amber-300">
     <nav>
       <div class="links ml-auto flex flex-wrap gap-x-2.5">
-        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/dashboard/visualizepost">Home</RouterLink>
+        <RouterLink to="/dashboard/createpost">Create post</RouterLink>
         <RouterLink to="/Auth">Auth</RouterLink>
       </div>
     </nav>
