@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { findProp } from '@vue/compiler-core';
 import PostComponent from './PostComponent.vue';
 
 import type { Post } from './PostComponentTypes';

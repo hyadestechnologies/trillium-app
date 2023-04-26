@@ -5,7 +5,7 @@ import SearchBarComponent from './SearchBar/SearchBarComponent.vue';
   <div class="">
     <SearchBarComponent />
     <div class="mt-10 btn-default text-center">
-      <RouterLink to="/dashboard/createpost">Create post</RouterLink>
+      <RouterLink to="/dashboard/createpost" class="flex flex-col">Create post</RouterLink>
     </div>
   </div>
 </template>
