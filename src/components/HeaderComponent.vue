@@ -1,23 +1,14 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  data() {
-    return {
-      asd: '',
-    };
-  },
-});
+<script lang="ts" setup>
+import SearchBarComponent from './Dashboard/Controls/SearchBar/SearchBarComponent.vue';
 </script>
 
 <template>
-  <div class="header-container bg-amber-300">
-    <nav>
-      <div class="links ml-auto flex flex-wrap gap-x-2.5">
-        <RouterLink to="/dashboard/visualizepost">Home</RouterLink>
-        <RouterLink to="/Auth">Auth</RouterLink>
-      </div>
+  <div class="header-container grid grid-cols-3 fixed w-screen justify-center bg-amber-300">
+    <nav class="links flex items-center gap-x-2.5">
+      <RouterLink to="/dashboard/visualizepost">Home</RouterLink>
+      <RouterLink to="/Auth">Auth</RouterLink>
     </nav>
+    <SearchBarComponent />
   </div>
 </template>
 
