@@ -28,6 +28,13 @@ const router = createRouter({
           component: () =>
             import('../components/Dashboard/Post/PostVisualizationComponent/PostVisualizationComponent.vue'),
         },
+        {
+          path: 'visualizepostsearch/:keyword',
+          name: 'VisualizaPostSearchPage',
+          component: () =>
+            import('../components/Dashboard/Post/PostVisualizationComponent/PostSearchVisualizationComponent.vue'),
+          props: true,
+        },
       ],
     },
   ],
