@@ -2,6 +2,7 @@
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { reactive, inject, computed } from 'vue';
 import { usernameValidation, passwordValidation } from '@/shared/functions/Validation';
+import { setAuthToken } from '@/shared/functions/request';
 
 import type { User } from '@/shared/types/user';
 import type { FormErrors, Response } from './LoginComponentType';
@@ -51,9 +52,7 @@ function onFormSubmit() {
         if (response === undefined) throw new Error('Undefined login response');
 
         // Save token to local storage
-        if (typeof Storage !== 'undefined') {
-          localStorage.setItem('access_token', response.access_token);
-        }
+        setAuthToken(response.access_token);
       })
       .catch((error: any) => {
         console.log(error);
