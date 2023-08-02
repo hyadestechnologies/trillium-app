@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { reactive, inject, computed } from 'vue';
 import { usernameValidation, passwordValidation } from '@/shared/functions/Validation';
 import { setAuthToken } from '@/shared/functions/request';
+import router from '@/router';
 
 import type { User } from '@/shared/types/user';
 import type { FormErrors, Response } from './LoginComponentType';
@@ -53,6 +54,8 @@ function onFormSubmit() {
 
         // Save token to local storage
         setAuthToken(response.access_token);
+        // Redirect to home
+        router.push({ path: '/dashboard/visualizepost' });
       })
       .catch((error: any) => {
         console.log(error);
