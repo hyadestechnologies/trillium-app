@@ -3,12 +3,22 @@ import SearchBarComponent from './Dashboard/Controls/SearchBar/SearchBarComponen
 </script>
 
 <template>
-  <div class="header-container grid grid-cols-3 fixed w-screen justify-center bg-amber-300">
+  <div class="header-container fixed flex w-screen justify-between bg-amber-300">
     <nav class="links flex items-center gap-x-2.5">
       <RouterLink to="/dashboard/visualizepost">Home</RouterLink>
       <RouterLink to="/Auth">Auth</RouterLink>
     </nav>
     <SearchBarComponent />
+    <div class="flex items-center gap-x-2.5">
+      <RouterLink to="/profile">
+        <svg class="profile-picture w-5 h-5">
+          <g>
+            <circle cx="50%" cy="50%" r="50%" fill="white" />
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="70%" fill="black">AG</text>
+          </g>
+        </svg>
+      </RouterLink>
+    </div>
   </div>
 </template>
 

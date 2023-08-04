@@ -13,6 +13,37 @@ const router = createRouter({
       component: () => import('../components/AuthPageComponent/AuthPageComponent.vue'),
     },
     {
+      path: '/profile',
+      name: 'ProfilePage',
+      component: () => import('../components/ProfilePageComponent/ProfilePageComponent.vue'),
+      children: [
+        {
+          path: 'posts',
+          name: 'ProfilePostPage',
+          component: () =>
+            import(
+              '../components/ProfilePageComponent/ProfileMenuComponent/ProfilePostPageComponent/ProfilePostPageComponent.vue'
+            ),
+        },
+        {
+          path: 'friends',
+          name: 'ProfileFriendPage',
+          component: () =>
+            import(
+              '../components/ProfilePageComponent/ProfileMenuComponent/ProfileFriendPageComponent/ProfileFriendPageComponent.vue'
+            ),
+        },
+        {
+          path: 'followed',
+          name: 'ProfileFollowPage',
+          component: () =>
+            import(
+              '../components/ProfilePageComponent/ProfileMenuComponent/ProfileFollowPageComponent/ProfileFollowPageComponent.vue'
+            ),
+        },
+      ],
+    },
+    {
       path: '/dashboard',
       name: 'DashboardComponent',
       component: () => import('../components/Dashboard/DashboardComponent.vue'),
