@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import SearchBarComponent from './Dashboard/Controls/SearchBar/SearchBarComponent.vue';
+
+// TODO: Replace profile router link with user profile picture component
 </script>
 
 <template>
