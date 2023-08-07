@@ -7,8 +7,13 @@ defineProps<{
 }>();
 </script>
 <template>
-  <div class="p-3 bg-amber-300">
-    <UserPictureComponent :user="user" />
-    <h3 class="text-xl font-bold mb-2">{{ user.username }}</h3>
+  <div class="flex p-3 bg-amber-300">
+    <div class="max-w-[20%] p-3">
+      <UserPictureComponent :user="user" />
+    </div>
+    <div class="m-3">
+      <h3 class="text-xl font-bold mb-2">{{ user.username }}</h3>
+      <p>{{ user.name }}</p>
+    </div>
   </div>
 </template>

@@ -9,7 +9,7 @@ defineProps<{
 </script>
 <template>
   <ul class="list-none border-b border-transparent border-2 last:border-b-0" v-for="p in posts">
-    <li class="">
+    <li>
       <PostComponent :post="p" />
     </li>
   </ul>

@@ -1,7 +1,19 @@
 <script lang="ts" setup>
+import { computed } from 'vue';
 import SearchBarComponent from './Dashboard/Controls/SearchBar/SearchBarComponent.vue';
+import UserPictureComponent from './Dashboard/User/UserPictureComponent.vue';
+import { getAuthToken } from '@/shared/functions/request';
 
-// TODO: Replace profile router link with user profile picture component
+import type { User } from '@/shared/types/user';
+
+// TODO: Fetch user if logged in
+let dummy: User = {
+  username: 'username',
+  password: '',
+};
+
+// TODO: Check if auth token is correct
+const isUserLogged = computed(() => getAuthToken() !== null);
 </script>
 
 <template>
@@ -11,14 +23,9 @@ import SearchBarComponent from './Dashboard/Controls/SearchBar/SearchBarComponen
       <RouterLink to="/Auth">Auth</RouterLink>
     </nav>
     <SearchBarComponent />
-    <div class="flex items-center gap-x-2.5">
-      <RouterLink to="/profile">
-        <svg class="profile-picture w-5 h-5">
-          <g>
-            <circle cx="50%" cy="50%" r="50%" fill="white" />
-            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="70%" fill="black">AG</text>
-          </g>
-        </svg>
+    <div class="w-6 h-auto">
+      <RouterLink to="/profile" class="w-fit h-fit" v-if="isUserLogged">
+        <UserPictureComponent :user="dummy" />
       </RouterLink>
     </div>
   </div>

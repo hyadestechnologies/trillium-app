@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import UserComponent from '@/components/Dashboard/User/UserComponent.vue';
+import UserListComponent from '@/components/Dashboard/User/UserListComponent.vue';
 import type { User } from '@/shared/types/user';
 
-let user: User = {
-  username: 'username',
-  password: '',
-};
+// TODO: Fetch friends list
 </script>
 
 <template>
-  <div>
-    <UserComponent :user="user" />
+  <div class="users h-full m-2 overflow-y-auto">
+    <UserListComponent :users="[]" />
   </div>
 </template>
