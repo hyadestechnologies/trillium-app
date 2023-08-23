@@ -14,6 +14,7 @@ let dummy: User = {
 
 // TODO: Check if auth token is correct
 const isUserLogged = computed(() => getAuthToken() !== null);
+// TODO: Reload profile picture after login
 </script>
 
 <template>
