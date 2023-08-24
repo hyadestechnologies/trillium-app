@@ -26,7 +26,6 @@ const friendRequestFetcher = async () => {
 };
 
 // TODO: Fetch friends list
-// TODO: Fetch friend requests list
 const { isLoading, isError, data, error } = useQuery({
   queryKey: ['getFriendRequests'],
   queryFn: friendRequestFetcher,
