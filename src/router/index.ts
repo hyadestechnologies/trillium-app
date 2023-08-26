@@ -26,6 +26,14 @@ const router = createRouter({
             ),
         },
         {
+          path: 'updateprofile',
+          name: 'UpdateProfilePage',
+          component: () =>
+            import(
+              '../components/ProfilePageComponent/ProfileMenuComponent/ProfileUpdateComponent/ProfileUpdateComponent.vue'
+            ),
+        },
+        {
           path: 'posts',
           name: 'ProfilePostPage',
           component: () =>

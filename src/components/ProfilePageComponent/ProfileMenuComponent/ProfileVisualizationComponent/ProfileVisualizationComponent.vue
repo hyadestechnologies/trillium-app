@@ -6,21 +6,27 @@ import { useQuery } from '@tanstack/vue-query';
 
 let user: User | null = null;
 
-const axios = inject('axios');
+const axios: any = inject('axios');
 
 const fetcher = async () => {
   user = getUserInfo();
+  if (user === null) {
+    Promise.reject('Cannot get user ID');
+    return;
+  }
+
   return axios
     .get(`/users/profile/${user.id}`)
     .then((response: any): User => {
+      if (response.data === null) throw new Error('Cannot get user ID');
       user = response.data;
-      setUserInfo(user);
-      return user;
+      setUserInfo(response.data);
+      return response.data;
     })
     .catch((error: any) => Promise.reject(error));
 };
 const { isLoading, isError, data, error } = useQuery({
-  queryKey: ['getFriendRequests'],
+  queryKey: ['visualizeProfile'],
   queryFn: fetcher,
 });
 </script>
