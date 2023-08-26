@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { inject, reactive } from 'vue';
-import { getUserInfo } from '@/shared/functions/UserInfo';
+import { getUserInfo, setUserInfo } from '@/shared/functions/UserInfo';
 import type { User } from '@/shared/types/user';
 import { useQuery } from '@tanstack/vue-query';
 
-const user: User | null = getUserInfo();
+let user: User | null = null;
 
 const axios = inject('axios');
 
 const fetcher = async () => {
+  user = getUserInfo();
   return axios
     .get(`/users/profile/${user.id}`)
     .then((response: any): User => {
