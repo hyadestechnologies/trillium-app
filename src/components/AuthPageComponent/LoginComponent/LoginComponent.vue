@@ -8,6 +8,7 @@ import app from '@/main';
 
 import type { User } from '@/shared/types/user';
 import type { FormErrors, Response } from './LoginComponentType';
+import { setUserInfo } from '@/shared/functions/UserInfo';
 
 const axios: any = inject('axios');
 const queryClient = useQueryClient();
@@ -62,7 +63,7 @@ function onFormSubmit() {
         user.description = response.user.description;
         user.creationDate = response.user.creationDate;
         user.lastUpdate = response.user.lastUpdate;
-        localStorage.setItem('user', JSON.stringify(user));
+        setUserInfo(user);
 
         // Save token to local storage
         setAuthToken(response.access_token);

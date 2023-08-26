@@ -18,6 +18,14 @@ const router = createRouter({
       component: () => import('../components/ProfilePageComponent/ProfilePageComponent.vue'),
       children: [
         {
+          path: 'visualizeprofile',
+          name: 'VisualizeProfilePage',
+          component: () =>
+            import(
+              '../components/ProfilePageComponent/ProfileMenuComponent/ProfileVisualizationComponent/ProfileVisualizationComponent.vue'
+            ),
+        },
+        {
           path: 'posts',
           name: 'ProfilePostPage',
           component: () =>

@@ -2,19 +2,20 @@
 import { inject } from 'vue';
 import UserListComponent from '@/components/Dashboard/User/UserListComponent.vue';
 import FriendListComponent from '@/components/Dashboard/User/Friend/FriendListComponent.vue';
-import app from '@/main';
 
 import type { User } from '@/shared/types/user';
 import { useQuery } from '@tanstack/vue-query';
 import { getAuthToken } from '@/shared/functions/request';
+import { getUserInfo } from '@/shared/functions/UserInfo';
 
 const axios: any = inject('axios');
 
 const friendRequestFetcher = async () => {
-  const userJson: string | null = localStorage.getItem('user');
-  if (userJson === null) Promise.reject('Failed to get user information');
-
-  const user: User = userJson !== null ? JSON.parse(userJson) : {};
+  const user: User | null = getUserInfo();
+  if (user === null) {
+    Promise.reject('Failed to get user information');
+    return;
+  }
 
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + getAuthToken();
   return axios

@@ -5,16 +5,15 @@ import UserPictureComponent from './Dashboard/User/UserPictureComponent.vue';
 import { getAuthToken } from '@/shared/functions/request';
 
 import type { User } from '@/shared/types/user';
+import { getUserInfo } from '@/shared/functions/UserInfo';
 
 // TODO: Fetch user if logged in
-let dummy: User = {
-  username: 'username',
-  password: '',
-};
+const user: User | null = getUserInfo();
 
 // TODO: Check if auth token is correct
 const isUserLogged = computed(() => getAuthToken() !== null);
 // TODO: Reload profile picture after login
+// TODO: Fix profile picture width
 </script>
 
 <template>
@@ -25,8 +24,8 @@ const isUserLogged = computed(() => getAuthToken() !== null);
     </nav>
     <SearchBarComponent />
     <div class="w-6 h-auto">
-      <RouterLink to="/profile" class="w-fit h-fit" v-if="isUserLogged">
-        <UserPictureComponent :user="dummy" />
+      <RouterLink to="/profile/visualizeprofile" class="w-fit h-fit" v-if="isUserLogged && user !== null">
+        <UserPictureComponent :user="user" />
       </RouterLink>
     </div>
   </div>
