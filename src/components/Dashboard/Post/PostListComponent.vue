@@ -8,7 +8,7 @@ defineProps<{
 }>();
 </script>
 <template>
-  <ul class="list-none border-b border-transparent border-2 last:border-b-0" v-for="p in posts">
+  <ul class="list-none text-black border-0 last:border-b-0" v-for="p in posts">
     <li>
       <PostComponent :post="p" />
     </li>

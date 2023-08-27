@@ -6,12 +6,14 @@
 
 :root {
   --btn-default-bg-color: #fc9c4d;
+  --btn-default-fg-color: #000000;
 }
 
 
 
 .btn-default {
   background-color: var(--btn-default-bg-color);
+  color: var(--btn-default-fg-color) !important;
   padding: 5px;
   border-radius: 10px;
   min-width: 100px;
