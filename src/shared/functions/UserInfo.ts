@@ -30,3 +30,8 @@ export function setUserInfo(user: User): void {
     localStorage.setItem(userInfoId, JSON.stringify(user));
   }
 }
+export function deleteUserInfo() {
+  if (typeof Storage !== 'undefined') {
+    localStorage.removeItem(userInfoId);
+  }
+}
