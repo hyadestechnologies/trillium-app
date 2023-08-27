@@ -13,7 +13,7 @@ const post: Post = reactive({
 const createPostMutation = useMutation({
   mutationFn: (newPost: Post) => {
     return axios
-      .post('/post/create', {
+      .post('/posts/create', {
         title: newPost.title,
         description: newPost.description,
         file: newPost.media,
@@ -38,14 +38,14 @@ function createPost() {
 }
 </script>
 <template>
-  <div class="h-100 flex flex-col p-5">
+  <div class="h-100 flex flex-col p-5 text-light-blue">
     <h1 class="font-bold">Create new post</h1>
     <div class="form-container flex flex-col gap-1">
       <h3 class="mt-5 font-bold">Post title</h3>
-      <input class="rounded-xl indent-2" type="text" placeholder="Title" v-model="post.title" />
+      <input class="rounded-xl indent-2 bg-blue text-yellow" type="text" placeholder="Title" v-model="post.title" />
       <h3 class="mt-5 font-bold">Post description</h3>
       <textarea
-        class="rounded-xl indent-2 resize-none"
+        class="rounded-xl indent-2 resize-none bg-blue text-yellow"
         maxlength="255"
         name="description"
         id="descriptionTextArea"
@@ -55,7 +55,7 @@ function createPost() {
         v-model="post.description"></textarea>
       <h3 class="mt-5 font-bold" v>Post media (photo or video)</h3>
       <input
-        class="block w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-400 file:text-black hover:file:bg-red-100"
+        class="block w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue file:text-light-blue hover:file:bg-yellow"
         type="file"
         @change="uploadFile" />
       <button class="mt-10 btn-default" @click="createPost">Create post</button>

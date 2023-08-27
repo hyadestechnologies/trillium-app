@@ -46,7 +46,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="auth-page-container flex h-full bg-red-300">
+  <div class="auth-page-container flex h-full bg-dark-blue text-light-blue">
     <div class="form-container flex flex-col w-[80vw] h-[70vh] m-auto rounded-2xl">
       <h1 class="text-center font-bold">WELCOME!</h1>
       <div class="flex flex-col md:flex-row h-full w-full mt-2 md:mt-10">

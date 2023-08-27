@@ -11,7 +11,7 @@ import './assets/main.css';
 
 const app = createApp(App);
 const axiosInstance = axios.create({
-  baseURL: 'https://trilliumdev-staging.up.railway.app/',
+  baseURL: 'http://localhost:8000/v1/',
 });
 
 export const vueQueryPlugin = {

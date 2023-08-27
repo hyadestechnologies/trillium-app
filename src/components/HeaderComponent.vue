@@ -18,7 +18,7 @@ const isUserLogged = computed(() => getAuthToken() !== null);
 </script>
 
 <template>
-  <div class="header-container fixed flex w-screen justify-between bg-amber-300">
+  <div class="header-container fixed flex w-screen justify-between bg-blue text-light-blue p-1">
     <nav class="links flex items-center gap-x-2.5">
       <RouterLink to="/dashboard/visualizepost">Home</RouterLink>
       <RouterLink to="/Auth">Auth</RouterLink>

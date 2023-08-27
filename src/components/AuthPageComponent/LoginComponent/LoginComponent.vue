@@ -22,7 +22,7 @@ const formErrors: FormErrors = reactive({
 });
 
 const errorClasses = {
-  'border-red-600': true,
+  'border-light-red': true,
   'border-2': true,
 };
 let timer: number | undefined = undefined;
@@ -101,7 +101,7 @@ const passwordErrorClasses = computed(() => (formErrors.password ? errorClasses 
 
 <template>
   <div class="flex flex-col mt-5 p-5">
-    <div class="form-header">
+    <div class="form-header mb-5">
       <h1 class="text-center text-2xl">Insert your credentials</h1>
     </div>
     <form class="form-body flex flex-col gap-10" @submit.prevent="onFormSubmit">
@@ -109,14 +109,14 @@ const passwordErrorClasses = computed(() => (formErrors.password ? errorClasses 
         type="text"
         v-model="user.username"
         placeholder="Username"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue"
         :class="usernameErrorClasses"
         @keyup="checkUsername()" />
       <input
         type="password"
         v-model="user.password"
         placeholder="Password"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue"
         :class="passwordErrorClasses"
         @keyup="checkPassword()" />
 
