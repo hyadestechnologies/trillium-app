@@ -7,7 +7,7 @@ import ProfileMenuComponent from './ProfileMenuComponent/ProfileMenuComponent.vu
     <div class="w-4/5 md:w-3/4 h-full overflow-y-hidden">
       <router-view :key="$route.fullPath" />
     </div>
-    <div class="profile-menu w-4/5 md:w-1/4 h-full overflow-y-hidden bg-red-400">
+    <div class="profile-menu w-4/5 md:w-1/4 h-full overflow-hidden bg-red-400">
       <ProfileMenuComponent />
     </div>
   </div>

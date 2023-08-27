@@ -10,7 +10,7 @@ const axios: any = inject('axios');
 
 const fetcher = async () => {
   user = getUserInfo();
-  if (user === null) {
+  if (user === null || user.id === undefined) {
     Promise.reject('Cannot get user ID');
     return;
   }
