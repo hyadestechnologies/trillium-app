@@ -2,6 +2,9 @@
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { reactive, inject, computed } from 'vue';
 import { usernameValidation, passwordValidation } from '@/shared/functions/Validation';
+import { setAuthToken } from '@/shared/functions/request';
+import router from '@/router';
+import app from '@/main';
 
 import type { User } from '@/shared/types/user';
 import type { FormErrors, Response } from './LoginComponentType';
@@ -50,10 +53,21 @@ function onFormSubmit() {
         const response = loginQuery.data.value;
         if (response === undefined) throw new Error('Undefined login response');
 
+        // Save user information
+        user.password = '';
+        user.id = response.user.id;
+        user.email = response.user.email;
+        user.name = response.user.name;
+        user.surname = response.user.surname;
+        user.description = response.user.description;
+        user.creationDate = response.user.creationDate;
+        user.lastUpdate = response.user.lastUpdate;
+        localStorage.setItem('user', JSON.stringify(user));
+
         // Save token to local storage
-        if (typeof Storage !== 'undefined') {
-          localStorage.setItem('access_token', response.access_token);
-        }
+        setAuthToken(response.access_token);
+        // Redirect to home
+        router.push({ path: '/dashboard/visualizepost' });
       })
       .catch((error: any) => {
         console.log(error);

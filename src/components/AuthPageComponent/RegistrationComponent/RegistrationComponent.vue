@@ -68,6 +68,17 @@ function onFormFinalize() {
   if (!formErrors.email && !formErrors.password && !formErrors.repeatedPassword) {
     // Register
     userMutation.mutate(user);
+
+    // TODO: Automatic log in
+    // const queryKey = ['login'];
+    // queryClient
+    //   .refetchQueries({ predicate: query => query.queryKey[0] === 'login' })
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch((error: any) => {
+    //     console.log(error);
+    //   });
   }
 }
 

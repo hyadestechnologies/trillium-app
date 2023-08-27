@@ -11,12 +11,12 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div class="page-container flex flex-col flex-wrap content-center h-screen w-screen">
+  <div class="page-container flex flex-col content-center h-screen w-screen">
     <HeaderComponent class="h-50 w-full order-1" />
     <div class="router-container order-2 grow">
       <RouterView />
     </div>
-    <FooterComponent class="h-50 w-full order-3 self-end" />
+    <FooterComponent class="sticky bottom-0 h-50 w-full order-3 self-end" />
   </div>
 </template>
 

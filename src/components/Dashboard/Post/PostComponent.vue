@@ -4,8 +4,6 @@ import type { Post } from './PostComponentTypes';
 defineProps<{
   post: Post;
 }>();
-
-// TODO: Aggiungere media
 </script>
 <template>
   <div class="p-3 bg-amber-300">

@@ -7,6 +7,6 @@ export interface Post {
   // creationDate: Date;
   // lastUpdate: Date;
   // deletedOn?: Date;
-  media?: any[];
+  // media?: any[];
   // comments?: string[];
 }
