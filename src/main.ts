@@ -14,6 +14,20 @@ const axiosInstance = axios.create({
   baseURL: 'http://localhost:8000/v1/',
 });
 
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('access_token');  
+        if (token || config !== undefined) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return config;
+    }, 
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 export const vueQueryPlugin = {
   install: (app: any, options: any) => {
     const queryClient = new QueryClient(options);
