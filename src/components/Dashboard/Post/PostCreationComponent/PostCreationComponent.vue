@@ -8,6 +8,8 @@ const axios: any = inject('axios');
 const post: Post = reactive({
   title: '',
   description: '',
+  media: [],
+  data: '',
 });
 
 const createPostMutation = useMutation({

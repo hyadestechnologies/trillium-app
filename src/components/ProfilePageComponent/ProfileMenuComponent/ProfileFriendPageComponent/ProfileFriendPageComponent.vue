@@ -2,7 +2,6 @@
 import { inject } from 'vue';
 import UserListComponent from '@/components/Dashboard/User/UserListComponent.vue';
 import FriendListComponent from '@/components/Dashboard/User/Friend/FriendListComponent.vue';
-import app from '@/main';
 
 import type { User } from '@/shared/types/user';
 import { useQuery } from '@tanstack/vue-query';
