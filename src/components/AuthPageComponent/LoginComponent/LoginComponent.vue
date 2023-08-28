@@ -7,8 +7,24 @@ import router from '@/router';
 
 import type { User } from '@/shared/types/user';
 import type { FormErrors, Response } from './LoginComponentType';
+import type { AxiosInstance } from 'axios';
 
-const axios: any = inject('axios');
+const axios: AxiosInstance | undefined = inject('axios');
+
+axios?.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('access_token');
+    if (token || config !== undefined) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
 const queryClient = useQueryClient();
 
 const user: User = reactive({
@@ -28,14 +44,19 @@ let timer: number | undefined = undefined;
 
 const loginQuery = useQuery({
   queryKey: ['login', user],
-  queryFn: (): Promise<Response> =>
-    axios
+  queryFn: async (): Promise<Response> => {
+    if (axios == null) {
+      return new Promise(() => Promise.reject());
+    }
+    const res = axios
       .post('/auth/login/', {
         username: user.username,
         password: user.password,
       })
       .then((response: any) => response.data)
-      .catch((error: any) => Promise.reject(error)),
+      .catch((error: any) => Promise.reject(error));
+    return res;
+  },
   enabled: false,
 });
 
