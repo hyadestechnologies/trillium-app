@@ -34,7 +34,7 @@ function startSearch() {
       timer = undefined;
     }
     if (searchTerm.value && searchTerm.value.length > 3) {
-      timer = setTimeout(() => {
+      timer = window.setTimeout(() => {
         resolve(refetch());
         isSearchFocused.value = true;
       }, 300);

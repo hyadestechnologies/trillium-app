@@ -15,17 +15,17 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('access_token');  
-        if (token || config !== undefined) {
-            config.headers['Authorization'] = `Bearer ${token}`;
-        }
-
-        return config;
-    }, 
-    (error) => {
-        return Promise.reject(error);
+  config => {
+    const token = localStorage.getItem('access_token');
+    if (token || config !== undefined) {
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
+
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
 );
 
 export const vueQueryPlugin = {
@@ -38,7 +38,7 @@ export const vueQueryPlugin = {
 app.use(createPinia());
 app.use(router);
 
-app.use(VueAxios, axiosInstance);
+app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios);
 app.use(VueQueryPlugin);
 app.mount('#app');

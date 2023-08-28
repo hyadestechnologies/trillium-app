@@ -4,7 +4,6 @@ import { reactive, inject, computed } from 'vue';
 import { usernameValidation, passwordValidation } from '@/shared/functions/Validation';
 import { setAuthToken } from '@/shared/functions/request';
 import router from '@/router';
-import app from '@/main';
 
 import type { User } from '@/shared/types/user';
 import type { FormErrors, Response } from './LoginComponentType';
@@ -81,7 +80,7 @@ function startValidation(validator: (arg: string) => boolean, arg: string) {
       clearTimeout(timer);
       timer = undefined;
     }
-    timer = setTimeout(() => {
+    timer = window.setTimeout(() => {
       resolve(validator(arg));
     }, 200);
   });
