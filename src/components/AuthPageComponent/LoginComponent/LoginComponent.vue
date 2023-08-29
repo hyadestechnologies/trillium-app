@@ -10,7 +10,6 @@ import type { FormErrors, Response } from './LoginComponentType';
 import { setUserInfo } from '@/shared/functions/UserInfo';
 
 const axios: any = inject('axios');
-const queryClient = useQueryClient();
 
 const user: User = reactive({
   username: '',
@@ -81,7 +80,7 @@ function startValidation(validator: (arg: string) => boolean, arg: string) {
       clearTimeout(timer);
       timer = undefined;
     }
-    timer = setTimeout(() => {
+    timer = window.setTimeout(() => {
       resolve(validator(arg));
     }, 200);
   });
