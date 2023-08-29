@@ -10,9 +10,13 @@ import { VUE_QUERY_CLIENT, QueryClient, VueQueryPlugin } from '@tanstack/vue-que
 import './assets/main.css';
 
 const app = createApp(App);
-const axiosInstance = axios.create({
-  baseURL: 'https://trilliumdev-staging.up.railway.app/',
-});
+
+axios.defaults.baseURL = 'http://trilliumbackend-production.up.railway.app/v1/';
+
+const token = localStorage.getItem('access_token');
+if (token) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
 
 export const vueQueryPlugin = {
   install: (app: any, options: any) => {
@@ -24,7 +28,8 @@ export const vueQueryPlugin = {
 app.use(createPinia());
 app.use(router);
 
-app.use(VueAxios, axiosInstance);
+app.use(VueAxios, axios);
+
 app.provide('axios', app.config.globalProperties.axios);
 app.use(VueQueryPlugin);
 app.mount('#app');

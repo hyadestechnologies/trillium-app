@@ -63,11 +63,11 @@ const searchResultHidden = computed(() => (isSearchFocused.value && searchTerm.v
         placeholder="Search..."
         data-dropdown-toggle="dropdownUsers"
         data-dropdown-placement="bottom"
-        class="w-full"
+        class="w-full bg-dark-blue rounded-md"
         v-model="searchTerm"
         @keyup="search()"
         @focus="isSearchFocused = true" />
-      <div id="searchDropdown" :class="searchResultHidden" class="z-10 bg-red-400" tabindex="-1">
+      <div id="searchDropdown" :class="searchResultHidden" class="z-10 bg-dark-blue border-8 border-blue" tabindex="-1">
         <h4 class="border-b border-amber-300">Post</h4>
         <span class="error" v-if="isError">{{ error }}</span>
         <span class="" v-else-if="isLoading && searchTerm.length > 0">Loading...</span>

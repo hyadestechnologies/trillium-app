@@ -2,14 +2,29 @@
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { reactive, inject, computed } from 'vue';
 import { usernameValidation, passwordValidation } from '@/shared/functions/Validation';
-import { setAuthToken } from '@/shared/functions/request';
+import { getAuthToken, setAuthToken } from '@/shared/functions/request';
 import router from '@/router';
 
 import type { User } from '@/shared/types/user';
 import type { FormErrors, Response } from './LoginComponentType';
 import { setUserInfo } from '@/shared/functions/UserInfo';
+import type { AxiosInstance } from 'axios';
 
-const axios: any = inject('axios');
+const axios: AxiosInstance | undefined = inject('axios');
+
+axios?.interceptors.request.use(
+  config => {
+    const token = getAuthToken();
+    if (token || config !== undefined) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 const user: User = reactive({
   username: '',
@@ -21,21 +36,26 @@ const formErrors: FormErrors = reactive({
 });
 
 const errorClasses = {
-  'border-red-600': true,
+  'border-light-red': true,
   'border-2': true,
 };
 let timer: number | undefined = undefined;
 
 const loginQuery = useQuery({
   queryKey: ['login', user],
-  queryFn: (): Promise<Response> =>
-    axios
+  queryFn: async (): Promise<Response> => {
+    if (axios == null) {
+      return new Promise(() => Promise.reject());
+    }
+    const res = axios
       .post('/auth/login/', {
         username: user.username,
         password: user.password,
       })
       .then((response: any) => response.data)
-      .catch((error: any) => Promise.reject(error)),
+      .catch((error: any) => Promise.reject(error));
+    return res;
+  },
   enabled: false,
 });
 
@@ -100,7 +120,7 @@ const passwordErrorClasses = computed(() => (formErrors.password ? errorClasses 
 
 <template>
   <div class="flex flex-col mt-5 p-5">
-    <div class="form-header">
+    <div class="form-header mb-5">
       <h1 class="text-center text-2xl">Insert your credentials</h1>
     </div>
     <form class="form-body flex flex-col gap-10" @submit.prevent="onFormSubmit">
@@ -108,14 +128,14 @@ const passwordErrorClasses = computed(() => (formErrors.password ? errorClasses 
         type="text"
         v-model="user.username"
         placeholder="Username"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue"
         :class="usernameErrorClasses"
         @keyup="checkUsername()" />
       <input
         type="password"
         v-model="user.password"
         placeholder="Password"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue"
         :class="passwordErrorClasses"
         @keyup="checkPassword()" />
 

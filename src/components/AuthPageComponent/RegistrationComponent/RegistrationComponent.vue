@@ -28,7 +28,7 @@ const formErrors: FormErrors = reactive({
 });
 
 const errorClasses = {
-  'border-red-600': true,
+  'border-light-red': true,
   'border-2': true,
 };
 
@@ -125,21 +125,21 @@ const repeatedPasswordErrorClasses = computed(() => {
         type="text"
         v-model="user.name"
         placeholder="First name"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue"
         :class="nameErrorClasses"
         @keyup="formErrors.name = false" />
       <input
         type="text"
         v-model="user.surname"
         placeholder="Last name"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue"
         :class="surnameErrorClasses"
         @keyup="formErrors.surname = false" />
       <input
         type="text"
         v-model="user.username"
         placeholder="Username"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue"
         :class="usernameErrorClasses"
         @keyup="formErrors.username = false" />
       <button class="btn-default">Continue</button>
@@ -149,21 +149,21 @@ const repeatedPasswordErrorClasses = computed(() => {
         type="text"
         v-model="user.email"
         placeholder="Email"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue"
         :class="emailErrorClasses"
         @keyup="formErrors.email = false" />
       <input
         type="password"
         v-model="user.password"
         placeholder="Password"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue"
         :class="passwordErrorClasses"
         @keyup="formErrors.password = false" />
       <input
         type="password"
         v-model="repeatedPassword"
         placeholder="Repeat password"
-        class="rounded-lg indent-2"
+        class="rounded-lg indent-2 bg-blue" 
         :class="repeatedPasswordErrorClasses"
         @keyup="formErrors.repeatedPassword = false" />
       <div class="btn-container flex flex-row gap-5 justify-center items-center">

@@ -9,8 +9,15 @@ module.exports = {
       xl: '1440px',
       xxl: '2560px',
     },
-    themes: {
+    colors: {
       'main': '#1fb6ff',
+      'light-red': '#f76d6d',
+      'yellow': '#fc9c4d',
+      'light-blue': '#a8d1e7',
+      'blue': '#374785',
+      'dark-blue': '#24315e',
+        'white': '#ffffff',
+        'black': '#000000',
     },
     extend: {
       boxShadow: {

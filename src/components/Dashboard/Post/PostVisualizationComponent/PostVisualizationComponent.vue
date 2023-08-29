@@ -7,7 +7,7 @@ import type { Post } from '../PostComponentTypes';
 
 const axios: any = inject('axios');
 
-const numPosts = 5;
+const numPosts = 25;
 
 const fetcher = async ({ pageParam = 0 }) => axios.get(`/posts/getAll/${pageParam}/${numPosts}`);
 // Get posts based on the page
@@ -38,7 +38,7 @@ function loadPage(event: any) {
   <div class="posts h-full m-2 overflow-y-auto" @scroll="loadPage">
     <span class="error" v-if="isError">{{ error }}</span>
     <span class="" v-else-if="isLoading">Loading...</span>
-    <div v-else-if="data">
+    <div v-else-if="data" >
       <PostListComponent :posts="getPosts(data)" />
     </div>
   </div>

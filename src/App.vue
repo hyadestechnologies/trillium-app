@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { defineComponent } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 import PageLayout from './views/PageLayout.vue';
