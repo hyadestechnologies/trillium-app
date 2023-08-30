@@ -2,18 +2,19 @@
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { reactive, inject, computed } from 'vue';
 import { usernameValidation, passwordValidation } from '@/shared/functions/Validation';
-import { setAuthToken } from '@/shared/functions/request';
+import { getAuthToken, setAuthToken } from '@/shared/functions/request';
 import router from '@/router';
 
 import type { User } from '@/shared/types/user';
 import type { FormErrors, Response } from './LoginComponentType';
+import { setUserInfo } from '@/shared/functions/UserInfo';
 import type { AxiosInstance } from 'axios';
 
 const axios: AxiosInstance | undefined = inject('axios');
 
 axios?.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('access_token');
+    const token = getAuthToken();
     if (token || config !== undefined) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -24,8 +25,6 @@ axios?.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-const queryClient = useQueryClient();
 
 const user: User = reactive({
   username: '',
@@ -82,7 +81,7 @@ function onFormSubmit() {
         user.description = response.user.description;
         user.creationDate = response.user.creationDate;
         user.lastUpdate = response.user.lastUpdate;
-        localStorage.setItem('user', JSON.stringify(user));
+        setUserInfo(user);
 
         // Save token to local storage
         setAuthToken(response.access_token);

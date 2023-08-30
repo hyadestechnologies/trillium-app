@@ -13,3 +13,11 @@ export interface User {
   sex?: string;
   age?: number;
 }
+
+export interface UserInfo {
+  username: string;
+  email: string;
+  surname: string;
+  name: string;
+  description: string;
+}

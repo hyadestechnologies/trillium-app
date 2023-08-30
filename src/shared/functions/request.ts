@@ -11,3 +11,8 @@ export function setAuthToken(token: string) {
     localStorage.setItem(authTokenId, token);
   }
 }
+export function deleteAuthToken() {
+  if (typeof Storage !== 'undefined') {
+    localStorage.removeItem(authTokenId);
+  }
+}
