@@ -11,7 +11,7 @@ import './assets/main.css';
 
 const app = createApp(App);
 
-axios.defaults.baseURL = 'http://trilliumbackend-production.up.railway.app/v1/';
+axios.defaults.baseURL = 'https://trilliumbackend-production.up.railway.app/v1/';
 
 const token = localStorage.getItem('access_token');
 if (token) {
