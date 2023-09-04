@@ -17,14 +17,10 @@ function logout() {
 
   // Redirect to auth page
   router.push({ path: '/auth' });
+  location.reload();
 }
 
-// TODO: Re-render header on login and logout
-
-// TODO: Check if auth token is correct
 const isUserLogged = computed(() => getAuthToken() !== null);
-// TODO: Reload profile picture after login
-// TODO: Fix profile picture width
 </script>
 
 <template>

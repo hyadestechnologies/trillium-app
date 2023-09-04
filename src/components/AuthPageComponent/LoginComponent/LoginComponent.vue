@@ -87,6 +87,7 @@ function onFormSubmit() {
         setAuthToken(response.access_token);
         // Redirect to home
         router.push({ path: '/dashboard/visualizepost' });
+        location.reload();
       })
       .catch((error: any) => {
         console.log(error);
