@@ -140,12 +140,7 @@ async function updateUserInfo() {
     <div class="flex mt-3 align-center justify-end">
       <button class="btn-default mx-2" @click="updateProfile" v-if="!isLoading">Save</button>
       <button class="btn-default mx-2" :disabled="true" v-else>Saving...</button>
-      <button
-        class="btn-default mx-2"
-        :disabled="isLoading"
-        @click="router.push({ path: '/profile/visualizeprofile' })">
-        Cancel
-      </button>
+      <button class="btn-default mx-2" :disabled="isLoading" @click="router.back()">Cancel</button>
     </div>
   </div>
 </template>
