@@ -85,7 +85,7 @@ async function updateUserInfo() {
   <div class="flex flex-col p-3">
     <div class="form-item">
       <label for="name" class="pr-2">Name</label>
-      <input type="text" id="name" class="w-[70%] px-1" :disabled="isLoading" v-model="userInfo.name" />
+      <input type="text" id="name" class="w-[70%] px-1 text-black" :disabled="isLoading" v-model="userInfo.name" />
     </div>
 
     <div class="form-item">
@@ -93,7 +93,7 @@ async function updateUserInfo() {
       <input
         type="text"
         id="surname"
-        class="w-[70%] px-1"
+        class="w-[70%] px-1 text-black"
         placeholder="Name"
         :disabled="isLoading"
         v-model="userInfo.surname" />
@@ -104,7 +104,7 @@ async function updateUserInfo() {
       <input
         type="text"
         id="username"
-        class="w-[70%] px-1"
+        class="w-[70%] px-1 text-black"
         placeholder="Surname"
         :disabled="isLoading"
         v-model="userInfo.username" />
@@ -115,7 +115,7 @@ async function updateUserInfo() {
       <input
         type="email"
         id="email"
-        class="w-[70%] px-1"
+        class="w-[70%] px-1 text-black"
         placeholder="Username"
         :disabled="isLoading"
         v-model="userInfo.email" />
@@ -127,7 +127,7 @@ async function updateUserInfo() {
         name="description"
         id="description"
         rows="5"
-        class="w-[70%] px-1"
+        class="w-[70%] px-1 text-black"
         placeholder="Description"
         :disabled="isLoading"
         v-model="userInfo.description"></textarea>

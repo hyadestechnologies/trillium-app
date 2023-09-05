@@ -17,7 +17,7 @@ let user: User = {
           <img
             src="https://www.iconarchive.com/download/i96727/iconsmind/outline/Pen.ico"
             alt="update-profile"
-            class="h-full w-auto" />
+            class="h-full w-auto filter invert" />
           Modify
         </div>
       </RouterLink>
