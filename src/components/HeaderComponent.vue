@@ -16,8 +16,7 @@ function logout() {
   deleteUserInfo();
 
   // Redirect to auth page
-  router.push({ path: '/auth' });
-  location.reload();
+  router.push({ path: '/auth' }).then(() => location.reload());
 }
 
 const isUserLogged = computed(() => getAuthToken() !== null);

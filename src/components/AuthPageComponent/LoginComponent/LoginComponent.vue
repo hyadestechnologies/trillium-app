@@ -86,8 +86,7 @@ function onFormSubmit() {
         // Save token to local storage
         setAuthToken(response.access_token);
         // Redirect to home
-        router.push({ path: '/dashboard/visualizepost' });
-        location.reload();
+        router.push({ path: '/dashboard/visualizepost' }).then(() => location.reload());
       })
       .catch((error: any) => {
         console.log(error);
