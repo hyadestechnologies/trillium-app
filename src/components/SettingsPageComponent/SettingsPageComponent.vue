@@ -2,6 +2,7 @@
 import { inject } from 'vue';
 import { getAuthToken } from '@/shared/functions/request';
 import { useQuery } from '@tanstack/vue-query';
+import router from '@/router';
 
 const axios: any = inject('axios');
 
@@ -25,13 +26,19 @@ const { isLoading, isError, data, error } = useQuery({
     <span v-else-if="isError">{{ error }}</span>
     <div v-else>
       <div class="form-item">
-        <h3>Language:</h3>
+        <h3>Language</h3>
         <span>{{ data.language }}</span>
       </div>
       <div class="form-item">
-        <h3>Visibility:</h3>
+        <h3>Visibility</h3>
         <span>{{ data.visibility }}</span>
       </div>
+    </div>
+
+    <div class="flex mt-3 align-center justify-end">
+      <button class="btn-default mx-2" @click="router.push({ path: '/profile/updateSettings/' })" v-if="!isLoading">
+        Modify
+      </button>
     </div>
   </div>
 </template>

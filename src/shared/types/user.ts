@@ -21,3 +21,16 @@ export interface UserInfo {
   name: string;
   description: string;
 }
+
+export enum Language {
+  IT = 'IT',
+  EN = 'EN',
+}
+export enum Visibility {
+  HIDDEN = 'hidden',
+  PUBLIC = 'public',
+}
+export interface UserSettings {
+  language: Language;
+  visibility: Visibility;
+}

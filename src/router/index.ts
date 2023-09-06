@@ -62,6 +62,12 @@ const router = createRouter({
           name: 'UserSettings',
           component: () => import('../components/SettingsPageComponent/SettingsPageComponent.vue'),
         },
+        {
+          path: 'updateSettings',
+          name: 'UpdateUserSettings',
+          component: () =>
+            import('../components/SettingsPageComponent/SettingsUpdateComponent/SettingsUpdateComponent.vue'),
+        },
       ],
     },
     {
