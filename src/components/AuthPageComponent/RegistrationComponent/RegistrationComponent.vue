@@ -1,10 +1,17 @@
 <script lang="ts" setup>
 import { ref, reactive, inject, computed } from 'vue';
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
 import { passwordValidation, emailValidation } from '@/shared/functions/Validation';
 
 import type { User } from '@/shared/types/user';
 import type { FormErrors } from './RegistrationComponentTypes';
+import router from '@/router';
+import { setUserInfo } from '@/shared/functions/UserInfo';
+import { getAuthToken, setAuthToken } from '@/shared/functions/request';
+
+
+
+
 
 const axios: any = inject('axios');
 const queryClient = useQueryClient();
@@ -34,6 +41,24 @@ const errorClasses = {
 
 const state = reactive({
   isFormInit: true,
+});
+
+const loginQuery = useQuery({
+  queryKey: ['login', user],
+  queryFn: async (): Promise<Response> => {
+    if (axios == null) {
+      return new Promise(() => Promise.reject());
+    }
+    const res = axios
+      .post('/auth/login/', {
+        username: user.username,
+        password: user.password,
+      })
+      .then((response: any) => response.data)
+      .catch((error: any) => Promise.reject(error));
+    return res;
+  },
+  enabled: false,
 });
 
 const userMutation = useMutation({
@@ -68,8 +93,32 @@ function onFormFinalize() {
   if (!formErrors.email && !formErrors.password && !formErrors.repeatedPassword) {
     // Register
     userMutation.mutate(user);
+    
+    loginQuery
+      .refetch()
+      .then(() => {
+        const response: any = loginQuery.data.value;
+        if (response === undefined) throw new Error('Undefined login response');
 
-    // TODO: Automatic log in
+        // Save user information
+        user.password = '';
+        user.id = response.user.id;
+        user.email = response.user.email;
+        user.name = response.user.name;
+        user.surname = response.user.surname;
+        user.description = response.user.description;
+        user.creationDate = response.user.creationDate;
+        user.lastUpdate = response.user.lastUpdate;
+        setUserInfo(user);
+
+        // Save token to local storage
+        setAuthToken(response.access_token);
+        // Redirect to home
+        router.push({ path: '/dashboard/visualizepost' }).then(() => location.reload());
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });    // TODO: Automatic log in
     // const queryKey = ['login'];
     // queryClient
     //   .refetchQueries({ predicate: query => query.queryKey[0] === 'login' })
