@@ -27,6 +27,7 @@ let user: User = {
         <li><RouterLink to="/profile/posts">Posts</RouterLink></li>
         <li><RouterLink to="/profile/friends">Friends</RouterLink></li>
         <li><RouterLink to="/profile/followed">Followed</RouterLink></li>
+        <li><RouterLink to="/profile/settings">Setting</RouterLink></li>
       </ul>
     </div>
   </div>

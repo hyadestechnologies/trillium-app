@@ -57,6 +57,11 @@ const router = createRouter({
               '../components/ProfilePageComponent/ProfileMenuComponent/ProfileFollowPageComponent/ProfileFollowPageComponent.vue'
             ),
         },
+        {
+          path: 'settings',
+          name: 'UserSettings',
+          component: () => import('../components/SettingsPageComponent/SettingsPageComponent.vue'),
+        },
       ],
     },
     {
