@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, reactive } from 'vue';
+import { computed, inject, reactive, ref } from 'vue';
 import { getAuthToken } from '@/shared/functions/request';
 import { useMutation, useQuery } from '@tanstack/vue-query';
 import { Language, Visibility, type UserSettings } from '@/shared/types/user';
@@ -11,6 +11,7 @@ const settings: UserSettings = reactive({
   language: Language.IT,
   visibility: Visibility.HIDDEN,
 });
+const isLoading = ref(false);
 
 const fetcher = async () => {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + getAuthToken();
@@ -26,14 +27,23 @@ const langFetcher = async () => {
   return axios
     .put(`/settings/language/${settings.language}`)
     .then((response: any) => console.log(response))
-    .catch((error: any) => Promise.reject(error));
+    .catch((error: any) => {
+      isLoading.value = false;
+      Promise.reject(error);
+    });
 };
 const visibilityFetcher = async () => {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + getAuthToken();
   return axios
     .put(`/settings/visibility/${settings.visibility}`)
-    .then((response: any) => router.push({ path: '/profile/settings' }))
-    .catch((error: any) => Promise.reject(error));
+    .then((response: any) => {
+      isLoading.value = false;
+      router.push({ path: '/profile/settings' });
+    })
+    .catch((error: any) => {
+      isLoading.value = false;
+      Promise.reject(error);
+    });
 };
 
 const fetchSettingsQuery = useQuery({
@@ -44,6 +54,7 @@ const updateLanguageMutation = useMutation({ mutationFn: langFetcher });
 const updateVisibilityMutation = useMutation({ mutationFn: visibilityFetcher });
 
 function updateSettings() {
+  isLoading.value = true;
   updateLanguageMutation.mutate();
   updateVisibilityMutation.mutate();
 }
@@ -64,8 +75,9 @@ function updateSettings() {
       </select>
     </div>
     <div class="flex mt-3 align-center justify-end">
-      <button class="btn-default mx-2" @click="updateSettings">Save</button>
-      <button class="btn-default mx-2" @click="router.back()">Cancel</button>
+      <button class="btn-default mx-2" @click="updateSettings" v-if="!isLoading">Save</button>
+      <button class="btn-default mx-2" :disabled="true" v-else>Saving...</button>
+      <button class="btn-default mx-2" :disabled="isLoading" @click="router.back()">Cancel</button>
     </div>
   </div>
 </template>
