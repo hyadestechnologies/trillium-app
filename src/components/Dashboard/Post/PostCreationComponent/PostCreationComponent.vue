@@ -2,6 +2,8 @@
 import { useMutation } from '@tanstack/vue-query';
 import { inject, reactive } from 'vue';
 import type { Post } from '../PostComponentTypes';
+import router from '@/router';
+
 
 const axios: any = inject('axios');
 
@@ -22,6 +24,7 @@ const createPostMutation = useMutation({
       })
       .then((response: any) => {
         console.log(response);
+        router.push({ path: '/dashboard/visualizepost' }).then(() => location.reload());
       })
       .catch((error: any) => {
         console.log(error);
